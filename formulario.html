@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Sala</title>
+  <link rel="stylesheet" href="./formulario.css">
+  <link rel="shortcut icon" href="/images/logo_site-removebg-preview (1).png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <img src="./images/SENAI_logo_2024.png" alt="">
+  </header>
+
+  <section>
+
+    <div id="div1">
+      <div class="container-flex">
+        <div class="form-container">
+          <h2>Registro de Sala</h2>
+          <form id="salaForm">
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" name="curso" required>
+
+            <label for="periodoInicio">Período:</label>
+            <div class="date-range">
+              <input type="date" id="periodoInicio" name="periodoInicio" required>
+              <input type="date" id="periodoFim" name="periodoFim">
+            </div>
+
+            <label for="professor">Professor:</label>
+            <input type="text" id="professor" name="professor" required>
+
+            <label for="sala">Sala:</label>
+            <input type="text" id="sala" name="sala" required>
+
+            <button type="submit">Registrar Sala</button>
+          </form>
+
+          <div id="resultado" class="resultado"></div>
+        </div>
+      </div>
+    </div>
+    <div id="div2">
+      <div class="tabela-container">
+        <h2>Cursos em Andamento</h2>
+        <table id="tabelaAndamento">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Período de Início</th>
+              <th>Período de Término</th>
+              <th>Professor</th>
+              <th>Sala</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tabela-container2">
+        <h2>Cursos à Iniciar</h2>
+        <table id="tabelaInicio">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Período de Início</th>
+              <th>Período de Término</th>
+              <th>Professor</th>
+              <th>Sala</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>©IST Mecatrônica SENAI - 2025</p>
+    <p>Desenvolvido por: Eduardo Silveira & Ricardo Filho</p>
+    <div class="divfooter">
+      <div class="img1">
+        <img src="./images/whatsapp.png" class="logowpp">
+        <p> (54) 98114-2738</p>
+      </div>
+      <div class="img1">
+        <img src="./images/whatsapp.png" class="logowpp">
+        <p> (54) 99266-4334</p>
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script src="formulario.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+body {
+  background: #b2babb;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+section{
+  margin-top: 100px;
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+}
+header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#div1{
+  width: 50vw;
+  height: 80vh;
+}
+#div2{
+  width: 50vw;
+  height: 80vh;
+}
+.container-flex {
+  display: flex;
+  gap: 40px;
+  padding: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+
+.form-container {
+  background-color: #99a3a4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 30px;
+  width: 450px;
+  height: 480px;
+  margin-top: -20px;
+}
+
+h2 {
+  color: #d15e12 ;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 96%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.date-range {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background-color: #d15e12 ;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ba4a00 ;
+}
+
+.resultado {
+  margin-top: 15px;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+
+.tabela-container {
+  background-color: #99a3a4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 800px;
+  overflow-x: auto;
+}
+.tabela-container2{
+  margin-top: 15vh;
+  background-color: #99a3a4;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 800px;
+  overflow-x: auto;
+}
+
+.tabela-container h2 {
+  color: #d15e12 ;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #d15e12 ;
+  color: white;
+}
+footer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+  background-color: #99a3a4  ;
+  margin-top: 30vh;
+  width: 100vw;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  
+}
+.logowpp{
+  width: 35px;
+  height: 35px;
+  margin-top: 6px;
+}
+.divfooter{
+  display: flex;
+  flex-direction: column;
+}
+.img1{
+  display: flex;
+  margin-top: 2px;
+  
+}

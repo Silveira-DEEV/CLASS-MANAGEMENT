@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre</title>
+    <link rel="stylesheet" href="registre.css">
+    <link rel="shortcut icon" href="/images/logo_site-removebg-preview (1).png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="register-container">
+        <img id="logoSenai" src="/images/logo senai.png" alt="">
+        <h1>Registro</h1>
+
+        <form id="registerForm">
+            <div>
+                <label for="email"><strong>E-mail</strong></label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" required>
+            </div>
+            <div>
+                <label for="password"><strong>Senha</strong></label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <button id="registerBtn">Registrar</button>
+            <a href="index.html" ; id="haveAccount">Já possui uma conta? Faça login</a>
+        </form>
+
+        <p id="errorMessage" style="color: red; display: none;"></p>
+    </div>
+
+    <script type="module" src="registre.js"></script>
+</body>
+
+</html>
