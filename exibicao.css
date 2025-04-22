@@ -71,10 +71,21 @@ section{
   font-size: 16px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s;
 }
 
 .btn.btn-primary:hover {
   background-color: #ba4a00;
+  transform: scale(1.1);
+}
+.img-excel-export {
+  width: 100px;
+  margin-right: 40px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.img-excel-export:hover {
+  transform: scale(1.1);
 }
 

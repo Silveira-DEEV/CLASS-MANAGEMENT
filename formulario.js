@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const div2 = document.getElementById("div2");
   const btnContainerHeader = document.getElementById("btnContainerHeader");
 
-  let originalParent = toggleBtn.parentElement; 
+  let originalParent = toggleBtn.parentElement;
 
   toggleBtn.addEventListener("click", () => {
     const isHidden = formContainer.style.display === "none";
@@ -13,20 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
     formContainer.style.display = isHidden ? "block" : "none";
 
     if (isHidden) {
-      
       toggleBtn.textContent = "Ocultar Formulário";
       div1.classList.remove("oculto");
       div2.classList.remove("tabelas-centralizadas");
 
-    
       originalParent.insertBefore(toggleBtn, originalParent.firstChild);
     } else {
-      
       toggleBtn.textContent = "Registrar Turma";
       div1.classList.add("oculto");
       div2.classList.add("tabelas-centralizadas");
 
-      
       btnContainerHeader.appendChild(toggleBtn);
     }
   });
@@ -42,7 +38,6 @@ const firebaseConfig = {
   messagingSenderId: "55494640837",
   appId: "1:55494640837:web:b00713624afc202bfb5cac",
 };
-
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -76,7 +71,6 @@ document
       sala,
     };
 
-    
     database
       .ref("salas")
       .once("value")
@@ -119,7 +113,6 @@ document
       });
   });
 
-
 function carregarSalas() {
   const tabelaAndamento = document.querySelector("#tabelaAndamento tbody");
   const tabelaInicio = document.querySelector("#tabelaInicio tbody");
@@ -135,11 +128,10 @@ function carregarSalas() {
 
       snapshot.forEach((child) => {
         const dados = child.val();
-        dados.key = child.key; 
+        dados.key = child.key;
         dadosSalas.push(dados);
       });
 
-     
       dadosSalas.sort((a, b) => {
         const dataA = new Date(a.periodoInicio);
         const dataB = new Date(b.periodoInicio);
@@ -171,19 +163,24 @@ function carregarSalas() {
 
         `;
 
+        const hoje = new Date();
+        const dataInicio = new Date(dados.periodoInicio);
+
         if (!dados.periodoFim || dados.periodoFim.trim() === "") {
-          tabelaInicio.appendChild(linha);
+          if (dataInicio <= hoje) {
+            tabelaAndamento.appendChild(linha); // Já começou
+          } else {
+            tabelaInicio.appendChild(linha); // Ainda vai começar
+          }
         } else {
-          tabelaAndamento.appendChild(linha);
+          tabelaAndamento.appendChild(linha); // Tem data de fim, então está em andamento
         }
       });
     });
 }
 
-
 function editarSala(botaoEditar, salaId) {
   const linha = botaoEditar.closest("tr");
-
 
   if (botaoEditar.textContent === "Editar") {
     for (let i = 0; i < 5; i++) {
@@ -196,17 +193,19 @@ function editarSala(botaoEditar, salaId) {
       cell.appendChild(input);
     }
 
-
     botaoEditar.textContent = "Salvar";
   } else {
     const novosDados = {
       curso: linha.cells[0].querySelector("input").value.trim(),
-      periodoInicio: formatarDataPtBrParaIso(linha.cells[1].querySelector("input").value),
-      periodoFim: formatarDataPtBrParaIso(linha.cells[2].querySelector("input").value),
+      periodoInicio: formatarDataPtBrParaIso(
+        linha.cells[1].querySelector("input").value
+      ),
+      periodoFim: formatarDataPtBrParaIso(
+        linha.cells[2].querySelector("input").value
+      ),
       professor: linha.cells[3].querySelector("input").value.trim(),
       sala: linha.cells[4].querySelector("input").value.trim(),
     };
-
 
     firebase
       .database()
@@ -219,7 +218,6 @@ function editarSala(botaoEditar, salaId) {
       .catch((error) => {
         console.error("Erro ao atualizar sala: ", error);
       });
-
 
     botaoEditar.textContent = "Editar";
   }
@@ -243,8 +241,6 @@ function excluirSala(salaId) {
 }
 window.addEventListener("DOMContentLoaded", carregarSalas);
 
-document.getElementById('botaoexibicao').addEventListener('click', function() {
-  window.location.href = 'exibicao.html'; // Redireciona para exibicao.html
+document.getElementById("botaoexibicao").addEventListener("click", function () {
+  window.location.href = "exibicao.html"; // Redireciona para exibicao.html
 });
-
-

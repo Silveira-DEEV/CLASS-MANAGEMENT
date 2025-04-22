@@ -9,36 +9,48 @@
       href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="./images/logo_site-removebg-preview (1).png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="./images/logo_site-removebg-preview (1).png"
+      type="image/x-icon"
+    />
   </head>
 
   <body>
     <header>
-        <img src="./images/SENAI_logo_2024.png" alt="">
-        <button class="btn btn-primary" id="botaoexibicao" type="submit">Voltar</button>
-        <button class="btn btn-primary" id="botaopausar" type="submit">Pausar Exibição</button>
-        <button class="btn btn-primary" onclick="exportarParaExcel()">Exportar para Excel</button>
+      <img src="./images/SENAI_logo_2024.png" alt="" />
+      <button class="btn btn-primary" id="botaoexibicao" type="submit">
+        Voltar
+      </button>
+      <button class="btn btn-primary" id="botaopausar" type="submit">
+        Pausar Exibição
+      </button>
+      <img
+        src="./images/logo-microsoft-excel-1024.png"
+        alt="Exportar para Excel"
+        onclick="exportarParaExcel()"
+        class="img-excel-export"
+      />
     </header>
 
     <section>
-        <div class="tabela-container">
-            <h2>Cursos em Andamento</h2>
-            <table id="tabelaAndamento">
-              <thead>
-                <tr>
-                  <th>Curso</th>
-                  <th>Período de Início</th>
-                  <th>Período de Término</th>
-                  <th>Professor</th>
-                  <th>Sala</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+      <div class="tabela-container">
+        <h2>Cursos em Andamento</h2>
+        <table id="tabelaAndamento">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Período de Início</th>
+              <th>Período de Término</th>
+              <th>Professor</th>
+              <th>Sala</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
 
-            <!-- Botão de Exportação -->
-           
-        </div>
+        <!-- Botão de Exportação -->
+      </div>
     </section>
 
     <!-- Script principal -->
@@ -50,7 +62,7 @@
     <!-- Função de exportação -->
     <script>
       function exportarParaExcel() {
-        const tabela = document.getElementById('tabelaAndamento');
+        const tabela = document.getElementById("tabelaAndamento");
         const wb = XLSX.utils.table_to_book(tabela, { sheet: "Cursos" });
         XLSX.writeFile(wb, "cursos_em_andamento.xlsx");
       }

@@ -46,11 +46,13 @@ button {
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 10px;
+    transition: transform 0.2s;
 
 }
 
 button:hover {
     background-color: #ba4a00;
+    transform: scale(1.1);
 }
 
 p {
