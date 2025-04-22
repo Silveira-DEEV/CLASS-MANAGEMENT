@@ -21,7 +21,7 @@ const database = getDatabase(app);
 
 let dadosSalas = [];
 let indiceAtual = 0;
-let intervaloCarrossel; // <- declarada apenas uma vez
+let intervaloCarrossel;
 let carrosselPausado = false;
 
 function carregarSalas() {
@@ -38,6 +38,9 @@ function carregarSalas() {
       dadosSalas.push(dados);
     });
 
+    // Filtrar dados válidos antes de ordenar
+    dadosSalas = dadosSalas.filter((s) => s.periodoInicio);
+
     dadosSalas.sort(
       (a, b) => new Date(a.periodoInicio) - new Date(b.periodoInicio)
     );
@@ -45,7 +48,6 @@ function carregarSalas() {
     indiceAtual = 0;
     exibirCarrossel();
 
-    
     clearInterval(intervaloCarrossel);
     if (!carrosselPausado) {
       intervaloCarrossel = setInterval(exibirCarrossel, 3000);
@@ -58,7 +60,9 @@ function exibirCarrossel() {
   tabelaAndamento.innerHTML = "";
 
   const total = dadosSalas.length;
-  const fim = Math.min(indiceAtual + 10, total);
+  if (total === 0) return;
+
+  const fim = Math.min(indiceAtual + 7, total);
   const itemsToShow = dadosSalas.slice(indiceAtual, fim);
 
   itemsToShow.forEach((dados) => {
@@ -67,25 +71,24 @@ function exibirCarrossel() {
 
     const linha = document.createElement("tr");
     linha.innerHTML = `
-            <td>${dados.curso}</td>
-            <td>${inicioFormatado}</td>
-            <td>${fimFormatado}</td>
-            <td>${dados.professor}</td>
-            <td>${dados.sala}</td>
-        `;
+      <td>${dados.curso || ""}</td>
+      <td>${inicioFormatado}</td>
+      <td>${fimFormatado}</td>
+      <td>${dados.professor || ""}</td>
+      <td>${dados.sala || ""}</td>
+    `;
 
     tabelaAndamento.appendChild(linha);
   });
 
-  indiceAtual += 10;
-
+  indiceAtual += 7;
   if (indiceAtual >= total) {
     indiceAtual = 0;
   }
 }
 
 function formatarDataIsoParaPtBr(data) {
-  if (!data) return "";
+  if (!data || typeof data !== "string") return "";
   const [ano, mes, dia] = data.split("-");
   return `${dia}/${mes}/${ano}`;
 }
@@ -96,6 +99,7 @@ function pausarCarrossel() {
 }
 
 function retomarCarrossel() {
+  clearInterval(intervaloCarrossel);
   intervaloCarrossel = setInterval(exibirCarrossel, 3000);
   carrosselPausado = false;
 }
@@ -103,50 +107,50 @@ function retomarCarrossel() {
 document.addEventListener("DOMContentLoaded", () => {
   carregarSalas();
 
-  const tabelaAndamento = document.querySelector("#tabelaAndamento");
-  tabelaAndamento.addEventListener("mouseenter", pausarCarrossel);
-  tabelaAndamento.addEventListener("mouseleave", () => {
-    if (!carrosselPausado) retomarCarrossel();
-  });
+  // Botão que redireciona
+  const botaoExibicao = document.getElementById("botaoexibicao");
+  if (botaoExibicao) {
+    botaoExibicao.addEventListener("click", function () {
+      window.location.href = "formulario.html";
+    });
+  }
+
+  // Botão de pausar/retomar carrossel
+  const botaopausar = document.getElementById("botaopausar");
+  if (botaopausar) {
+    botaopausar.addEventListener("click", function () {
+      if (carrosselPausado) {
+        retomarCarrossel();
+        botaopausar.textContent = "Pausar Exibição";
+      } else {
+        pausarCarrossel();
+        botaopausar.textContent = "Retomar Exibição";
+      }
+    });
+  }
+
+  // Botão de exportar para Excel
+  const botaoExportar = document.getElementById("btnExportar");
+  if (botaoExportar) {
+    botaoExportar.addEventListener("click", () => {
+      const tabela = document.getElementById("tabelaAndamento");
+
+      if (!tabela) {
+        alert("Tabela não encontrada.");
+        return;
+      }
+
+      const html = tabela.outerHTML;
+      const url = "data:application/vnd.ms-excel," + encodeURIComponent(html);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "cursos_em_andamento.xls";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
 
   retomarCarrossel(); // inicia o carrossel ao carregar a página
 });
-
-document.getElementById('botaoexibicao').addEventListener('click', function () {
-  window.location.href = 'formulario.html';
-});
-
-const botaopausar = document.getElementById("botaopausar");
-botaopausar.addEventListener("click", function () {
-  if (carrosselPausado) {
-    retomarCarrossel();
-    botaopausar.textContent = "Pausar Exibição";
-  } else {
-    pausarCarrossel();
-    botaopausar.textContent = "Retomar Exibição";
-  }
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const botaoExportar = document.getElementById("btnExportar");
-
-  botaoExportar.addEventListener("click", () => {
-    const tabela = document.getElementById("tabelaAndamento");
-
-    if (!tabela) {
-      alert("Tabela não encontrada.");
-      return;
-    }
-
-    const html = tabela.outerHTML;
-    const url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'cursos_em_andamento.xls';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
-});
-
-

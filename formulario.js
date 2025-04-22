@@ -158,7 +158,7 @@ function carregarSalas() {
           <td>
           <button class="excluir-btn" onclick="excluirSala('${dados.key}')">Excluir</button> 
           <button class="editar-btn" onclick="editarSala(this, '${dados.key}')">Editar</button>
-          <button class="editar-btn"  onclick="editarSala(this, '${dados.key}')">Editar</button>
+         
           
 
         `;
