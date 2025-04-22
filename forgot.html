@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Senha</title>
+  <link rel="stylesheet" href="forgot.css">
+  <link rel="shortcut icon" href="images/logo_site-removebg-preview (1).png" type="image/x-icon">
+
+</head>
+
+<body>
+  <div class="reset-container">
+    <img id="logoSenai" src="images/logo senai.png" alt="">
+    <h1>Recuperar Senha</h1>
+
+    <form id="resetForm">
+      <div>
+        <label for="email"><strong>E-mail</strong></label>
+        <input type="email" id="email" placeholder="Digite seu e-mail" required>
+      </div>
+      <button id="resetBtn">Enviar Link de Redefinição</button>
+    </form>
+
+    <p id="message" style="color: red; display: none;"></p>
+
+    <p><a id="resendLogin" href="index.html">Voltar ao Login</a></p>
+  </div>
+
+  <script type="module" src="forgot.js"></script>
+</body>
+
+</html>

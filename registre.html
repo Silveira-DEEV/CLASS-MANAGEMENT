@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registre</title>
+    <link rel="shortcut icon" href="./images/logo_site-removebg-preview (1).png" type="image/x-icon">
+    <link rel="stylesheet" href="registre.css" />
+  </head>
+
+  <body>
+    <div class="register-container">
+      <h1>Registro</h1>
+
+      <form id="registerForm">
+        <div>
+          <label for="email"><strong>E-mail</strong></label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Digite seu e-mail"
+            required
+          />
+        </div>
+        <div>
+          <label for="password"><strong>Senha</strong></label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Digite sua senha"
+            required
+          />
+        </div>
+        <button type="submit" id="registerBtn">Registrar</button>
+        <a href="index.html" id="haveAccount"
+          >Já possui uma conta? Faça login</a
+        >
+      </form>
+      <div class="divmensagem">
+
+
+        <div
+          id="registerSuccessMessage"
+          class="success-message"
+          style="display: none"
+        >
+          ✅ Registro realizado com sucesso!
+        </div>
+    
+        <div id="registerErrorMessage" class="error-message" style="display: none">
+          ❌ Falha ao realizar registro. Verifique suas credenciais.
+        </div>
+    </div>
+      <p id="errorMessage" style="color: red; display: none"></p>
+    </div>
+
+    <script type="module" src="registre.js"></script>
+  </body>
+</html>

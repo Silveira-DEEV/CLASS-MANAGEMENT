@@ -1,0 +1,80 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #e5e8e8;
+}
+
+.tabela-container {
+  background-color: #ccd1d1;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 65vw;
+  height: 65vh;
+  overflow-x: auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tabela-container h2 {
+  color: #ff6600;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #ff6600;
+  color: white;
+}
+header{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+    padding: 20px 40px;
+    height: 15vh;
+}
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 85vh;
+}
+.btn.btn-primary {
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: white;
+  margin: 0 auto 20px auto;
+  width: 500px;
+  border: none;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+  background-color: #ba4a00;
+}
+

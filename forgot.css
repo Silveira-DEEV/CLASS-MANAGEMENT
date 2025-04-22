@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e5e8e8;
+}
+
+#logoSenai {
+    width: 120px;
+    margin-left: 70px;
+}
+
+
+h1 {
+    color: #ff6600;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+
+}
+
+button:hover {
+    background-color: #ba4a00;
+}
+
+p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#resendLogin{
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+.reset-container{
+    background-color: #ccd1d1;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+
+}
