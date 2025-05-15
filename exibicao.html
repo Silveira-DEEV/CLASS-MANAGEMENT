@@ -18,6 +18,8 @@
 
   <body>
     <header>
+     
+
       <img src="./images/SENAI_logo_2024.png" alt="" />
       <button class="btn btn-primary" id="botaoexibicao" type="submit">
         Voltar
@@ -31,6 +33,12 @@
         onclick="exportarParaExcel()"
         class="img-excel-export"
       />
+      <img
+      src="https://img.icons8.com/ios-filled/100/ff6600/ms-powerpoint.png"
+      alt="Exportar para PowerPoint"
+      onclick="exportarParaPptx()"
+      class="img-excel-export"
+    />
     </header>
 
     <section>
@@ -67,5 +75,7 @@
         XLSX.writeFile(wb, "cursos_em_andamento.xlsx");
       }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PptxGenJS/3.11.0/pptxgen.bundle.js"></script>
+
   </body>
 </html>

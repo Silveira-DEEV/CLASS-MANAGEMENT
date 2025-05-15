@@ -4,6 +4,7 @@ import {
   ref,
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import PptxGenJS from "https://cdn.jsdelivr.net/npm/pptxgenjs@3.11.0/+esm";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB8fw3yHAOTIUqNws8S_579FFKSY4ZRZfU",
@@ -38,7 +39,6 @@ function carregarSalas() {
       dadosSalas.push(dados);
     });
 
-    // Filtrar dados válidos antes de ordenar
     dadosSalas = dadosSalas.filter((s) => s.periodoInicio);
 
     dadosSalas.sort(
@@ -107,7 +107,6 @@ function retomarCarrossel() {
 document.addEventListener("DOMContentLoaded", () => {
   carregarSalas();
 
-  // Botão que redireciona
   const botaoExibicao = document.getElementById("botaoexibicao");
   if (botaoExibicao) {
     botaoExibicao.addEventListener("click", function () {
@@ -115,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Botão de pausar/retomar carrossel
   const botaopausar = document.getElementById("botaopausar");
   if (botaopausar) {
     botaopausar.addEventListener("click", function () {
@@ -129,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Botão de exportar para Excel
   const botaoExportar = document.getElementById("btnExportar");
   if (botaoExportar) {
     botaoExportar.addEventListener("click", () => {
@@ -152,5 +149,99 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  retomarCarrossel(); // inicia o carrossel ao carregar a página
+  retomarCarrossel();
 });
+
+async function exportarParaPptx() {
+  let pptx = new PptxGenJS();
+
+  const snapshot = await getSnapshot();
+  let dadosSalasExport = [];
+
+  snapshot.forEach((childSnapshot) => {
+    const dados = childSnapshot.val();
+    dados.key = childSnapshot.key;
+    dadosSalasExport.push(dados);
+  });
+
+  dadosSalasExport = dadosSalasExport
+    .filter((s) => s.periodoInicio)
+    .sort((a, b) => new Date(a.periodoInicio) - new Date(b.periodoInicio));
+
+  for (let i = 0; i < dadosSalasExport.length; i += 4) {
+    let slide = pptx.addSlide();
+    let pageData = dadosSalasExport.slice(i, i + 4);
+
+    let tableRows = [
+      [
+        { text: "Curso", options: cellHeaderStyle() },
+        { text: "Período de Início", options: cellHeaderStyle() },
+        { text: "Período de Término", options: cellHeaderStyle() },
+        { text: "Professor", options: cellHeaderStyle() },
+        { text: "Sala", options: cellHeaderStyle() },
+      ],
+    ];
+
+    pageData.forEach((dados) => {
+      tableRows.push([
+        { text: dados.curso || "", options: cellBodyStyle() },
+        {
+          text: formatarDataIsoParaPtBr(dados.periodoInicio),
+          options: cellBodyStyle(),
+        },
+        {
+          text: formatarDataIsoParaPtBr(dados.periodoFim),
+          options: cellBodyStyle(),
+        },
+        { text: dados.professor || "", options: cellBodyStyle() },
+        { text: dados.sala || "", options: cellBodyStyle() },
+      ]);
+    });
+
+    slide.addTable(tableRows, {
+      x: 0.5,
+      y: 0.5,
+      w: 9,
+      h: 5,
+    });
+  }
+
+  pptx.writeFile("cursos_em_andamento_completo.pptx");
+}
+
+function cellHeaderStyle() {
+  return {
+    bold: true,
+    fill: "FF6600",
+    color: "FFFFFF",
+    align: "center",
+    border: [{ color: "000000" }],
+    fontSize: 18,
+  };
+}
+
+function cellBodyStyle() {
+  return {
+    fill: "F1F1F1",
+    color: "000000",
+    align: "center",
+    border: [{ color: "000000" }],
+    fontSize: 18,
+  };
+}
+
+function getSnapshot() {
+  return new Promise((resolve) => {
+    const salasRef = ref(database, "salas");
+    onValue(
+      salasRef,
+      (snapshot) => {
+        resolve(snapshot);
+      },
+      { onlyOnce: true }
+    );
+  });
+}
+
+// Deixar função disponível para onclick do HTML
+window.exportarParaPptx = exportarParaPptx;

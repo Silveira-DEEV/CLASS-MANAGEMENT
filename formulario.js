@@ -16,16 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Ocultar Formulário";
       div1.classList.remove("oculto");
       div2.classList.remove("tabelas-centralizadas");
-
       originalParent.insertBefore(toggleBtn, originalParent.firstChild);
     } else {
       toggleBtn.textContent = "Registrar Turma";
       div1.classList.add("oculto");
       div2.classList.add("tabelas-centralizadas");
-
       btnContainerHeader.appendChild(toggleBtn);
     }
   });
+
+  carregarSalas();
 });
 
 const firebaseConfig = {
@@ -34,7 +34,7 @@ const firebaseConfig = {
   databaseURL:
     "https://projeto-salas-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "projeto-salas",
-  storageBucket: "projeto-salas.firebasestorage.app",
+  storageBucket: "projeto-salas.appspot.com",
   messagingSenderId: "55494640837",
   appId: "1:55494640837:web:b00713624afc202bfb5cac",
 };
@@ -44,22 +44,27 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
+function trataCampo(valor) {
+  const val = valor.trim();
+  return val === "" ? null : val;
+}
+
 document
   .getElementById("salaForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const curso = document.getElementById("curso").value.trim();
+    const curso = trataCampo(document.getElementById("curso").value);
     const inicio = document.getElementById("periodoInicio").value;
     const fim = document.getElementById("periodoFim").value;
-    const professor = document.getElementById("professor").value.trim();
-    const sala = document.getElementById("sala").value.trim();
+    const professor = trataCampo(document.getElementById("professor").value);
+    const sala = trataCampo(document.getElementById("sala").value);
 
     const resultado = `
-    Curso: ${curso} <br>
+    Curso: ${curso || ""} <br>
     Período: ${inicio} até ${fim} <br>
-    Professor: ${professor} <br>
-    Sala: ${sala}
+    Professor: ${professor || ""} <br>
+    Sala: ${sala || ""}
   `;
     document.getElementById("resultado").innerHTML = resultado;
 
@@ -138,35 +143,36 @@ function carregarSalas() {
         return dataA - dataB;
       });
 
-      function formatarDataIsoParaPtBr(isoDateStr) {
-        if (!isoDateStr) return "";
-        const [ano, mes, dia] = isoDateStr.split("-");
-        return `${dia}/${mes}/${ano}`;
-      }
-
       dadosSalas.forEach((dados) => {
         const inicioFormatado = formatarDataIsoParaPtBr(dados.periodoInicio);
         const fimFormatado = formatarDataIsoParaPtBr(dados.periodoFim);
 
         const linha = document.createElement("tr");
         linha.innerHTML = `
-          <td>${dados.curso}</td>
-          <td>${inicioFormatado}</td>
-          <td>${fimFormatado}</td>
-          <td>${dados.professor}</td>
-          <td>${dados.sala}</td>
-          <td>
-          <button class="excluir-btn" onclick="excluirSala('${dados.key}')">Excluir</button> 
-          <button class="editar-btn" onclick="editarSala(this, '${dados.key}')">Editar</button>
-         
-          
-
-        `;
+        <td>${dados.curso || ""}</td>
+        <td>${inicioFormatado || ""}</td>
+        <td>${fimFormatado || ""}</td>
+        <td>${dados.professor || ""}</td>
+        <td>${dados.sala || ""}</td>
+        <td>
+          <button class="excluir-btn" onclick="excluirSala('${
+            dados.key
+          }')">Excluir</button> 
+          <button class="editar-btn" onclick="editarSala(this, '${
+            dados.key
+          }')">Editar</button>
+        </td>
+      `;
 
         const hoje = new Date();
         const dataInicio = new Date(dados.periodoInicio);
 
-        if (!dados.periodoFim || dados.periodoFim.trim() === "") {
+        const fimVazio =
+          !dados.periodoFim ||
+          (typeof dados.periodoFim === "string" &&
+            dados.periodoFim.trim() === "");
+
+        if (fimVazio) {
           if (dataInicio <= hoje) {
             tabelaAndamento.appendChild(linha); // Já começou
           } else {
@@ -196,15 +202,15 @@ function editarSala(botaoEditar, salaId) {
     botaoEditar.textContent = "Salvar";
   } else {
     const novosDados = {
-      curso: linha.cells[0].querySelector("input").value.trim(),
+      curso: trataCampo(linha.cells[0].querySelector("input").value),
       periodoInicio: formatarDataPtBrParaIso(
         linha.cells[1].querySelector("input").value
       ),
       periodoFim: formatarDataPtBrParaIso(
         linha.cells[2].querySelector("input").value
       ),
-      professor: linha.cells[3].querySelector("input").value.trim(),
-      sala: linha.cells[4].querySelector("input").value.trim(),
+      professor: trataCampo(linha.cells[3].querySelector("input").value),
+      sala: trataCampo(linha.cells[4].querySelector("input").value),
     };
 
     firebase
@@ -222,10 +228,7 @@ function editarSala(botaoEditar, salaId) {
     botaoEditar.textContent = "Editar";
   }
 }
-function formatarDataPtBrParaIso(dataBr) {
-  const [dia, mes, ano] = dataBr.split("/");
-  return `${ano}-${mes}-${dia}`;
-}
+
 function excluirSala(salaId) {
   const db = firebase.database();
   const salaRef = db.ref("salas/" + salaId);
@@ -239,7 +242,17 @@ function excluirSala(salaId) {
       console.error("Erro ao excluir a sala: ", error);
     });
 }
-window.addEventListener("DOMContentLoaded", carregarSalas);
+
+function formatarDataPtBrParaIso(dataBr) {
+  const [dia, mes, ano] = dataBr.split("/");
+  return `${ano}-${mes}-${dia}`;
+}
+
+function formatarDataIsoParaPtBr(dataIso) {
+  if (!dataIso) return "";
+  const [ano, mes, dia] = dataIso.split("-");
+  return `${dia}/${mes}/${ano}`;
+}
 
 document.getElementById("botaoexibicao").addEventListener("click", function () {
   window.location.href = "exibicao.html"; // Redireciona para exibicao.html
