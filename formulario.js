@@ -44,21 +44,17 @@ if (!firebase.apps.length) {
 }
 const database = firebase.database();
 
-function trataCampo(valor) {
-  const val = valor.trim();
-  return val === "" ? null : val;
-}
 
 document
   .getElementById("salaForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const curso = trataCampo(document.getElementById("curso").value);
+    const curso = document.getElementById("curso").value;
     const inicio = document.getElementById("periodoInicio").value;
     const fim = document.getElementById("periodoFim").value;
-    const professor = trataCampo(document.getElementById("professor").value);
-    const sala = trataCampo(document.getElementById("sala").value);
+    const professor = document.getElementById("professor").value;
+    const sala = document.getElementById("sala").value;
 
     const resultado = `
     Curso: ${curso || ""} <br>
@@ -201,16 +197,30 @@ function editarSala(botaoEditar, salaId) {
 
     botaoEditar.textContent = "Salvar";
   } else {
+    function trataCampo(valor) {
+      const val = valor.trim();
+      return val === "" ? null : val;
+    }
+
+    const curso = trataCampo(linha.cells[0].querySelector("input").value);
+    const periodoInicioRaw = linha.cells[1].querySelector("input").value;
+    const periodoFimRaw = linha.cells[2].querySelector("input").value;
+    const professor = trataCampo(linha.cells[3].querySelector("input").value);
+    const sala = trataCampo(linha.cells[4].querySelector("input").value);
+
+    const periodoInicio = periodoInicioRaw
+      ? formatarDataPtBrParaIso(periodoInicioRaw)
+      : null;
+    const periodoFim = periodoFimRaw
+      ? formatarDataPtBrParaIso(periodoFimRaw)
+      : null;
+
     const novosDados = {
-      curso: trataCampo(linha.cells[0].querySelector("input").value),
-      periodoInicio: formatarDataPtBrParaIso(
-        linha.cells[1].querySelector("input").value
-      ),
-      periodoFim: formatarDataPtBrParaIso(
-        linha.cells[2].querySelector("input").value
-      ),
-      professor: trataCampo(linha.cells[3].querySelector("input").value),
-      sala: trataCampo(linha.cells[4].querySelector("input").value),
+      curso,
+      periodoInicio,
+      periodoFim,
+      professor,
+      sala,
     };
 
     firebase
